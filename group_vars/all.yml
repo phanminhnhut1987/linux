@@ -1,2 +1,4 @@
 ---
 proxy_url: "http://10.0.10.128:8080"
+vault_version: "1.17.3"
+consul_version: "1.19.1"
