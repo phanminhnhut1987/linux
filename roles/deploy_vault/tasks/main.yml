@@ -1,0 +1,11 @@
+---
+- import_tasks: deploy_consul.yml
+  environment:
+    http_proxy: "{{ proxy_url }}"
+    https_proxy: "{{ proxy_url }}"
+
+- import_tasks: deploy_vault.yml
+  environment:
+    http_proxy: "{{ proxy_url }}"
+    https_proxy: "{{ proxy_url }}"
+    VAULT_ADDR: "http://127.0.0.1:8200"
