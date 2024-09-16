@@ -1,5 +1,5 @@
 # linux
 
-### Deploy Consul
+## Deploy Consul
 
-### Deploy Vault
+## Deploy Vault
