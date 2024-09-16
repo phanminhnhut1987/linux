@@ -1,0 +1,51 @@
+---
+- name: Install unzip
+  package:
+    name: unzip
+    update_cache: yes
+
+- name: Download Consul binary
+  get_url:
+    url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
+    dest: "/tmp/consul.zip"
+    
+- name: Unzip Consul binary
+  unarchive:
+    src: "/tmp/consul.zip"
+    dest: "/usr/local/bin/"
+    remote_src: True
+
+- name: Create Consul user
+  user:
+    name: consul
+    shell: /bin/false
+
+- name: Create Consul configuration directory
+  file: 
+    state: directory
+    path: /etc/consul.d
+    owner: consul
+    group: consul
+    
+- name: Create Consul data directory
+  file:
+    state: directory
+    path: /opt/consul
+    owner: consul
+    group: consul
+
+- name: Copy Consul service to server
+  copy: 
+    src=consul.service
+    dest=/etc/systemd/system/consul.service
+  
+- name: Copy Consul configuration file to server
+  copy: 
+    src=consul.hcl
+    dest=/etc/consul.d/consul.hcl
+
+- name: Enable and Start vault service
+  systemd:
+    name: consul
+    state: started
+    daemon_reload: yes
